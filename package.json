@@ -1,0 +1,28 @@
+{
+  "name": "typescript-for-react-developers",
+  "private": true,
+  "workspaces": [
+    "exercises/*",
+    "answers/*"
+  ],
+  "lint-staged": {
+    "*.{ts,tsx,md,json,yaml,js,jsx,ts,tsx}": [
+      "prettier --ignore-path .gitignore --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "dependencies": {
+    "husky": "^3.0.4",
+    "lint-staged": "^9.2.3",
+    "prettier": "^1.18.2"
+  },
+  "scripts": {
+    "prepared": "cd exercises/01-template && yarn start",
+    "prettier:write": "prettier --ignore-path .gitignore --write \"{exercises,answers}/**/*.{ts,tsx,md,json,yaml,js,jsx,ts,tsx}\""
+  }
+}
