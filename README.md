@@ -8,7 +8,7 @@ Before the workshop, please make sure you:
 2. Install the latest stable version of yarn from https://yarnpkg.com/lang/en/docs/install/
 3. Clone this repository: `git clone https://github.com/ForbesLindesay/typescript-for-react-developers.git`
 4. Open a new terminal in this repository and run `yarn`
-5. Run `yarn pepared`
+5. Run `yarn prepared`
 
 If you've done everything right, when you run step 5, you should see something approximately like:
 
