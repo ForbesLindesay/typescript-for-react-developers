@@ -1,7 +1,8 @@
 import React from 'react';
+import assertNever from 'assert-never';
 import './App.css';
 import NewPost from './NewPost';
-import Post, {PostKind} from './types';
+import Post, {isImagePost, isTextPost} from './types';
 
 const App: React.FC = () => {
   const [posts, setPosts] = React.useState<readonly Post[]>([]);
@@ -14,12 +15,13 @@ const App: React.FC = () => {
         <NewPost onSubmit={(newPost) => setPosts([newPost, ...posts])} />
         {posts.map(
           (post): React.ReactNode => {
-            switch (post.kind) {
-              case PostKind.text:
-                return <p key={post.id}>{post.body}</p>;
-              case PostKind.image:
-                return <img key={post.id} src={post.src} />;
+            if (isTextPost(post)) {
+              return <p key={post.id}>{post.body}</p>;
             }
+            if (isImagePost(post)) {
+              return <img key={post.id} src={post.src} />;
+            }
+            assertNever(post);
           },
         )}
       </header>
