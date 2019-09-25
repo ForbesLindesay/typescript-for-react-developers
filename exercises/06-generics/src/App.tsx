@@ -24,6 +24,14 @@ const App: React.FC = () => {
             }
           }}
         />
+        <p>
+          <List
+            items={[1, 2, 3, 4, 5]}
+            renderItem={(value): React.ReactNode => {
+              return value;
+            }}
+          />
+        </p>
       </header>
     </div>
   );
