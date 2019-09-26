@@ -1,0 +1,43 @@
+scalar GooglePerson
+scalar TrimmedString
+
+enum AccountType {
+  "Email address."
+  EMAIL
+  "Instagram username."
+  INSTAGRAM_USERNAME
+  "Phone number."
+  PHONE_NUMBER
+  "Generic ID for WeChat, LINE, and KakaoTalk."
+  GENERIC_ID
+}
+
+type Contact {
+  name: TrimmedString!
+  accounts: [Account!]!
+  google: GooglePerson!
+}
+
+type Account {
+  type: AccountType!
+  value: TrimmedString!
+}
+
+input ContactInput {
+  name: TrimmedString!
+  accounts: [AccountInput!]!
+  google: GooglePerson!
+}
+
+input AccountInput {
+  type: AccountType!
+  value: TrimmedString!
+}
+
+type Query {
+  contacts: [Contact!]!
+}
+
+type Mutation {
+  createContact(contact: ContactInput!): Contact
+}
