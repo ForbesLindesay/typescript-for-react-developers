@@ -30,7 +30,7 @@ export default function NewPost({onSubmit}) {
   const fileLink = usePreviewURL(file);
 
   const {getRootProps, getInputProps, isDragActive, isDragReject} = useDropzone({
-    accept: 'image/*',
+    accept: {'image/*': []},
     multiple: false,
     noClick: true,
     noKeyboard: true,
@@ -70,7 +70,7 @@ export default function NewPost({onSubmit}) {
     >
       <input {...getInputProps()} />
       {fileLink ? (
-        <img src={fileLink} />
+        <img src={fileLink} alt="User Uploaded File" />
       ) : (
         <textarea placeholder="Type a post or drop an image" value={text} onChange={(e) => setText(e.target.value)} />
       )}

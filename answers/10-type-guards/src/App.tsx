@@ -13,17 +13,15 @@ const App: React.FC = () => {
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <NewPost onSubmit={(newPost) => setPosts([newPost, ...posts])} />
-        {posts.map(
-          (post): React.ReactNode => {
-            if (isTextPost(post)) {
-              return <p key={post.id}>{post.body}</p>;
-            }
-            if (isImagePost(post)) {
-              return <img key={post.id} src={post.src} />;
-            }
-            return assertNever(post);
-          },
-        )}
+        {posts.map((post): React.ReactNode => {
+          if (isTextPost(post)) {
+            return <p key={post.id}>{post.body}</p>;
+          }
+          if (isImagePost(post)) {
+            return <img key={post.id} src={post.src} alt="User Uploaded File" />;
+          }
+          return assertNever(post);
+        })}
       </header>
     </div>
   );

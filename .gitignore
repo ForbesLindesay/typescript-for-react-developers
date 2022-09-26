@@ -84,3 +84,6 @@ __generated__/
 
 .vscode
 .idea
+
+answers/*/build
+exercises/*/build

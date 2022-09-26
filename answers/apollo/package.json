@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "schema": "cd src/graphql && graphql-codegen codegen.yml",
     "build": "tsc",
     "start": "node lib"
   },
@@ -24,6 +25,6 @@
     "koa-mount": "^4.0.0",
     "mkdirp": "^0.5.1",
     "type-assertions": "^1.1.0",
-    "typescript": "^3.5.3"
+    "typescript": "4.8.3"
   }
 }

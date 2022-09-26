@@ -31,7 +31,7 @@ export default function Counter() {
 function mapNumber<T extends string | number>(
   number: T,
   fn: (value: number) => number,
-): T extends number ? number : T extends string ? string : (number | string) {
+): T extends number ? number : T extends string ? string : number | string {
   const n: string | number = number;
   if (typeof n === 'string') return toRoman(fn(toArabic(n))) as any;
   else return fn(n) as any;
