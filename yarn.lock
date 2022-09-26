@@ -2077,12 +2077,22 @@
   dependencies:
     vary "^1.1.2"
 
-"@koa/cors@^3.0.0":
+"@koa/cors@^3.0.0", "@koa/cors@^3.4.1":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/@koa/cors/-/cors-3.4.1.tgz#ddd5c6ff07a1e60831e1281411a3b9fdb95a5b26"
   integrity sha512-/sG9NlpGZ/aBpnRamIlGs+wX+C/IJ5DodNK7iPQIVCG4eUQdGeshGhWQ6JCi7tpnD9sCtFXcS04iTimuaJfh4Q==
   dependencies:
     vary "^1.1.2"
+
+"@koa/router@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@koa/router/-/router-12.0.0.tgz#2ae7937093fd392761c0e5833c368379d4a35737"
+  integrity sha512-cnnxeKHXlt7XARJptflGURdJaO+ITpNkOHmQu7NHmCoRinPbyvFzce/EG/E8Zy81yQ1W9MoSdtklc3nyaDReUw==
+  dependencies:
+    http-errors "^2.0.0"
+    koa-compose "^4.1.0"
+    methods "^1.1.2"
+    path-to-regexp "^6.2.1"
 
 "@leichtgewicht/ip-codec@^2.0.1":
   version "2.0.4"
@@ -2666,7 +2676,7 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa@*", "@types/koa@^2.0.46", "@types/koa@^2.0.50":
+"@types/koa@*", "@types/koa@^2.0.46", "@types/koa@^2.0.50", "@types/koa@^2.13.5":
   version "2.13.5"
   resolved "https://registry.yarnpkg.com/@types/koa/-/koa-2.13.5.tgz#64b3ca4d54e08c0062e89ec666c9f45443b21a61"
   integrity sha512-HSUOdzKz3by4fnqagwthW/1w/yJspTgppyyalPVbgZf8jQWvdIXcVW5h2DGtw4zYntOaeRGx49r1hxoPWrD4aA==
@@ -2684,6 +2694,20 @@
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/@types/koa__cors/-/koa__cors-2.2.3.tgz#227154b4c70439083b33c89627eb780a517cd05b"
   integrity sha512-RfG2EuSc+nv/E+xbDSLW8KCoeri/3AkqwVPuENfF/DctllRoXhooboO//Sw7yFtkLvj7nG7O1H3JcZmoTQz8nQ==
+  dependencies:
+    "@types/koa" "*"
+
+"@types/koa__cors@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@types/koa__cors/-/koa__cors-3.3.0.tgz#2986b320d3d7ddf05c4e2e472b25a321cb16bd3b"
+  integrity sha512-FUN8YxcBakIs+walVe3+HcNP+Bxd0SB8BJHBWkglZ5C1XQWljlKcEFDG/dPiCIqwVCUbc5X0nYDlH62uEhdHMA==
+  dependencies:
+    "@types/koa" "*"
+
+"@types/koa__router@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@types/koa__router/-/koa__router-12.0.0.tgz#19b0f287f9708267dfd8842feb5f2de407d93af2"
+  integrity sha512-S6eHyZyoWCZLNHyy8j0sMW85cPrpByCbGGU2/BO4IzGiI87aHJ92lZh4E9xfsM9DcbCT469/OIqyC0sSJXSIBQ==
   dependencies:
     "@types/koa" "*"
 
@@ -5949,6 +5973,16 @@ functions-have-names@^1.2.2:
   resolved "https://registry.yarnpkg.com/functions-have-names/-/functions-have-names-1.2.3.tgz#0404fe4ee2ba2f607f0e0ec3c80bae994133b834"
   integrity sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==
 
+funtypes-schemas@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/funtypes-schemas/-/funtypes-schemas-1.2.0.tgz#58fa6414fcbda3ef7fa565b8c8a7e92c80f393a5"
+  integrity sha512-GqzlbLnkmUItt2P767nxtdttO2uBWxGOlUOqpaBsp50qWbCNWB426nhItOprs1HX6ct74AHz4f1rJwtCtZgb0g==
+
+funtypes@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/funtypes/-/funtypes-5.0.3.tgz#718f6d16f3631f82c7141e885538d4aa1ba6babc"
+  integrity sha512-8BYH+AEBVvYKL6tRDyD9W8MYi8uvaZ9QrqepPP8hu8IfOzsrVyf08MYKWGc2h8fCDrOVqBhoeOykT8xfHSu55Q==
+
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.2.tgz#32a6ee76c3d7f52d46b2b1ae5d93fea8580a25e0"
@@ -6349,7 +6383,7 @@ http-deceiver@^1.2.7:
   resolved "https://registry.yarnpkg.com/http-deceiver/-/http-deceiver-1.2.7.tgz#fa7168944ab9a519d337cb0bec7284dc3e723d87"
   integrity sha512-LmpOGxTfbpgtGVxJrj5k7asXHCgNZp5nLfp+hWc8QQRqtb7fUy6kRY3BO1h9ddF6yIPYUARgxGOwB42DnxIaNw==
 
-http-errors@2.0.0:
+http-errors@2.0.0, http-errors@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-2.0.0.tgz#b7774a1486ef73cf7667ac9ae0858c012c57b9d3"
   integrity sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==
@@ -7773,7 +7807,7 @@ koa@2.13.1:
     type-is "^1.6.16"
     vary "^1.1.2"
 
-koa@^2.8.1:
+koa@^2.13.4, koa@^2.8.1:
   version "2.13.4"
   resolved "https://registry.yarnpkg.com/koa/-/koa-2.13.4.tgz#ee5b0cb39e0b8069c38d115139c774833d32462e"
   integrity sha512-43zkIKubNbnrULWlHdN5h1g3SEKXOEzoAlRsHOTFpnlDu8JlAOZSMJBLULusuXRequboiwJcj5vtYXKB3k7+2g==
@@ -8159,7 +8193,7 @@ meros@1.1.4:
   resolved "https://registry.yarnpkg.com/meros/-/meros-1.1.4.tgz#c17994d3133db8b23807f62bec7f0cb276cfd948"
   integrity sha512-E9ZXfK9iQfG9s73ars9qvvvbSIkJZF5yOo9j4tcwM5tN8mUKfj/EKN5PzOr3ZH0y5wL7dLAHw3RVEfpQV9Q7VQ==
 
-methods@~1.1.2:
+methods@^1.1.2, methods@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/methods/-/methods-1.1.2.tgz#5529a4d67654134edcc5266656835b0f851afcee"
   integrity sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==
@@ -8746,6 +8780,11 @@ path-to-regexp@0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
   integrity sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==
+
+path-to-regexp@^6.2.1:
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-6.2.1.tgz#d54934d6798eb9e5ef14e7af7962c945906918e5"
+  integrity sha512-JLyh7xT1kizaEvcaXOQwOc2/Yhw6KZOvPf1S8401UyLk86CU79LN3vl7ztXGm/pZ+YjoyAJ4rxmHwbkBXJX+yw==
 
 path-type@^4.0.0:
   version "4.0.0"

@@ -2,6 +2,7 @@
   "name": "typescript-for-react-developers",
   "private": true,
   "workspaces": [
+    "backend/",
     "exercises/*",
     "answers/*"
   ],
