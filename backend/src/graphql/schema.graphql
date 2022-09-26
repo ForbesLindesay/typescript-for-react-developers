@@ -1,0 +1,38 @@
+scalar TrimmedString
+
+enum AccountType {
+  "Email address."
+  EMAIL
+  "Instagram username."
+  INSTAGRAM_USERNAME
+  "Phone number."
+  PHONE_NUMBER
+}
+
+type Contact {
+  name: TrimmedString!
+  accounts: [Account!]!
+}
+
+type Account {
+  type: AccountType!
+  value: TrimmedString!
+}
+
+input ContactInput {
+  name: TrimmedString!
+  accounts: [AccountInput!]!
+}
+
+input AccountInput {
+  type: AccountType!
+  value: TrimmedString!
+}
+
+type Query {
+  contacts: [Contact!]!
+}
+
+type Mutation {
+  createContact(contact: ContactInput!): Contact
+}

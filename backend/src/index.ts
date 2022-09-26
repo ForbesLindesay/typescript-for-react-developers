@@ -1,12 +1,12 @@
-import {readFileSync} from 'fs';
-
 import Koa from 'koa';
 import cors from '@koa/cors';
 import KoaRouter from '@koa/router';
+import koaMount from 'koa-mount';
 import * as t from 'funtypes/readonly';
 import * as s from 'funtypes-schemas';
 
-import {AccountSchema, ContactSchema} from './types';
+import {accounts, contacts} from './data';
+import graphqlMiddleware from './graphql/transports/https';
 
 const PORT = process.env.PORT || '8000';
 if (!/^\d+$/.test(PORT)) {
@@ -15,9 +15,6 @@ if (!/^\d+$/.test(PORT)) {
 
 const server = new Koa();
 const app = new KoaRouter();
-
-const accounts = readDataFile(`accounts`, t.Array(AccountSchema));
-const contacts = readDataFile(`contacts`, t.Array(ContactSchema));
 
 const idParamsSchema = t.Object({id: s.ParsedIntegerString({min: 1})});
 
@@ -50,15 +47,9 @@ app.get(`/contacts/:id/accounts`, (ctx) => {
 });
 
 server.use(cors());
+server.use(koaMount('/graphql', graphqlMiddleware));
 server.use(app.middleware());
 
 server.listen(PORT, () => {
   console.warn(`Listening on port: ${PORT}`);
 });
-
-function dataFile(name: string) {
-  return `${__dirname}/../data/${name}.json`;
-}
-function readDataFile<T>(name: string, schema: t.Codec<T>) {
-  return schema.parse(JSON.parse(readFileSync(dataFile(name), `utf8`)));
-}

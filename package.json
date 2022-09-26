@@ -2,9 +2,11 @@
   "name": "typescript-for-react-developers",
   "private": true,
   "workspaces": [
+    "answers/*",
     "backend/",
     "exercises/*",
-    "answers/*"
+    "scalar-types/",
+    "scripts/"
   ],
   "dependencies": {
     "prettier": "^2.7.1"

@@ -6,9 +6,8 @@ export interface AccountDisplayProps {
 }
 const AccountIcons: {[type in Account['type']]: string} = {
   EMAIL: `📨`,
-  INSTAGRAM: `📸`,
-  FACEBOOK: `F`,
-  GOOGLE: `G`,
+  INSTAGRAM_USERNAME: `📸`,
+  PHONE_NUMBER: `☎️`,
 };
 export default function AccountDisplay({account}: AccountDisplayProps) {
   return (

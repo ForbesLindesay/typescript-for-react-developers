@@ -6,6 +6,5 @@
     "outDir": "lib",
     "tsBuildInfoFile": "lib/tsconfig.tsbuildinfo",
   },
-  "include": ["src"],
-  "references": [{"path": "../scalar-types"}]
+  "include": ["src"]
 }

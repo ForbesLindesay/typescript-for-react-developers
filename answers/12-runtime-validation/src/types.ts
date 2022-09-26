@@ -3,9 +3,8 @@ import * as s from 'funtypes-schemas';
 
 export enum AccountType {
   Email = 'EMAIL',
-  Instagram = 'INSTAGRAM',
-  Facebook = 'FACEBOOK',
-  Google = 'GOOGLE',
+  InstagramUsername = 'INSTAGRAM_USERNAME',
+  PhoneNumber = 'PHONE_NUMBER',
 }
 
 export const AccountSchema = t.Named(
