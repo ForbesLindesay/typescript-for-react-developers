@@ -1,0 +1,40 @@
+{
+  "name": "graphql-client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/jest": "29.0.3",
+    "@types/node": "18.7.21",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
+    "funtypes": "^5.0.3",
+    "funtypes-schemas": "^1.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "scalar-types": "*",
+    "typescript": "4.8.3"
+  },
+  "scripts": {
+    "generate-graphql-types": "cd ../../scripts && yarn tsc && node lib/graphql-client-types --schema ../backend/src/graphql/schema.graphql ../exercises/13-graphql-client/src/api/operations.graphql",
+    "start": "yarn generate-graphql-types && react-scripts start",
+    "build": "yarn generate-graphql-types && react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

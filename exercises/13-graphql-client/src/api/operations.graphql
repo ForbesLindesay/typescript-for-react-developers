@@ -1,0 +1,11 @@
+query GetContacts {
+  contacts {
+    id
+    name
+    accounts {
+      id
+      type
+      value
+    }
+  }
+}

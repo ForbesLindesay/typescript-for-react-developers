@@ -87,3 +87,6 @@ __generated__/
 
 answers/*/build
 exercises/*/build
+
+answers/*/src/api/operations.ts
+exercises/*/src/api/operations.ts

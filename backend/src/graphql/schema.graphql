@@ -10,11 +10,13 @@ enum AccountType {
 }
 
 type Contact {
+  id: Int!
   name: TrimmedString!
   accounts: [Account!]!
 }
 
 type Account {
+  id: Int!
   type: AccountType!
   value: TrimmedString!
 }

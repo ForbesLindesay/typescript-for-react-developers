@@ -8,6 +8,7 @@ const typesMap: Record<AccountType, GraphQlAccountType> = {
 };
 
 const Account: GraphQlAccountResolvers = {
+  id: (v) => v.id,
   type: (v) => typesMap[v.type],
   value: (v) => v.value,
 };

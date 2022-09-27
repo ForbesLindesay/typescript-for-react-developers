@@ -20,7 +20,7 @@
   },
   "scripts": {
     "generate-resolver-types": "cd ../scripts && yarn tsc && node lib/graphql-server-types --schema ../backend/src/graphql/schema.graphql",
-    "build": "tsc --build",
-    "start": "tsc --build && node lib"
+    "build": "yarn generate-resolver-types && tsc --build",
+    "start": "yarn build && node lib"
   }
 }
