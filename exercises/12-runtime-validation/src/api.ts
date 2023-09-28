@@ -6,7 +6,7 @@ export async function getContacts(): Promise<Contact[]> {
   if (!result.ok) {
     throw new Error(`API failed: ${await result.text()}`);
   }
-  const resultData: unknown = await result.json();
+  const resultData = await result.json();
   return resultData; // TODO: validate response
 }
 
@@ -15,6 +15,6 @@ export async function getAccounts(contactId: number): Promise<Account[]> {
   if (!result.ok) {
     throw new Error(`API failed: ${await result.text()}`);
   }
-  const resultData: unknown = await result.json();
+  const resultData = await result.json();
   return resultData; // TODO: validate response
 }
