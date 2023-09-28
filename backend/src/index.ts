@@ -4,6 +4,7 @@ import KoaRouter from '@koa/router';
 import koaMount from 'koa-mount';
 import * as t from 'funtypes/readonly';
 import * as s from 'funtypes-schemas';
+import bodyParser from 'koa-bodyparser';
 
 import {accounts, contacts} from './data';
 import graphqlMiddleware from './graphql/transports/https';
@@ -47,6 +48,7 @@ app.get(`/contacts/:id/accounts`, (ctx) => {
 });
 
 server.use(cors());
+server.use(bodyParser());
 server.use(koaMount('/graphql', graphqlMiddleware));
 server.use(app.middleware());
 

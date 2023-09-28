@@ -4,7 +4,7 @@ import {relative} from 'path';
 import {format} from 'prettier';
 
 export async function writeTypeScript(filename: string, src: string) {
-  const formatted = format(src, {
+  const formatted = await format(src, {
     parser: `typescript`,
     printWidth: 88,
     semi: false,

@@ -6,12 +6,12 @@
     "@babel/code-frame": "^7.8.3",
     "@threads/tsconfig": "^1.0.0",
     "@types/babel__code-frame": "^7.0.3",
-    "apollo-codegen-core": "^0.38.2",
-    "apollo-codegen-typescript": "^0.38.2",
+    "apollo-codegen-core": "^0.40.9",
+    "apollo-codegen-typescript": "^0.40.9",
     "graphql": "^15.3.0",
     "graphql-query-compress": "^1.2.4",
     "parameter-reducers": "^2.0.0",
-    "typescript": "4.8.3"
+    "typescript": "5.2.2"
   },
   "scripts": {
     "build": "tsc",

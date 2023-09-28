@@ -1,23 +1,20 @@
-import {ApolloServer} from 'apollo-server-koa';
-import Koa from 'koa';
+import {ApolloServer} from '@apollo/server';
+import {koaMiddleware} from '@as-integrations/koa';
 
 import {getResolverContextForRequest} from '../ResolverContext';
 import schema from '../schema';
 
-const server = new ApolloServer({
-  schema,
-  context: (input) => getResolverContextForRequest(input.ctx),
-  playground: {
-    endpoint: '/graphql',
-    subscriptionEndpoint: '/graphql',
-  },
-});
+const server = new ApolloServer({schema});
 
-const graphqlMiddleware = new Koa();
+const middlewarePromise = (async () => {
+  await server.start();
+  return koaMiddleware(server, {
+    context: async (input) => getResolverContextForRequest(input.ctx),
+  });
+})();
 
-server.applyMiddleware({
-  app: graphqlMiddleware,
-  path: '/',
-});
+const middleware: ReturnType<typeof koaMiddleware> = async (ctx, next) => {
+  return (await middlewarePromise)(ctx, next);
+};
 
-export default graphqlMiddleware;
+export default middleware;

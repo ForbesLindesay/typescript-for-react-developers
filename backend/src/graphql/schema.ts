@@ -1,4 +1,4 @@
-import {makeExecutableSchema} from 'apollo-server-koa';
+import {makeExecutableSchema} from '@graphql-tools/schema';
 
 import typeDefs from './__generated__/schema';
 import {InterfaceTypeResolvers, UnionTypeResolvers} from './__generated__/types';

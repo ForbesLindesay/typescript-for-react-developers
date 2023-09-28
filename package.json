@@ -9,7 +9,10 @@
     "scripts/"
   ],
   "dependencies": {
-    "prettier": "^2.7.1"
+    "prettier": "^3.0.3"
+  },
+  "resolutions": {
+    "@apollo/federation": "0.38.1"
   },
   "scripts": {
     "prepared": "cd exercises/01-template && yarn start",
