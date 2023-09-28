@@ -1,0 +1,57 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #09d3ac;
+}
+
+button, a {
+  display: block;
+  border: none;
+  border-radius: 1000px;
+  background: hotpink;
+  height: 100px;
+  width: 100%;
+  font-size: 60px;
+  color: white;
+  padding: 0;
+  margin: 1em;
+}
+a {
+  background: blueviolet;
+}
+button:focus {
+  outline: 5px solid white;
+  outline-offset: 3px;
+}
+a:focus {
+  outline: 5px solid white;
+  outline-offset: 3px;
+}
+
+.toggle-focus:focus {
+  outline: none;
+}
+
+.App-header span {
+  display: inline-block;
+  height: 100px;
+  width: 300px;
+  font-size: 60px;
+}

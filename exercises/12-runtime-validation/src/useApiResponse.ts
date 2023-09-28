@@ -1,6 +1,9 @@
 import {useEffect, useState} from 'react';
 
-type ApiResponseState<T> = {status: 'loading'} | {status: 'loaded'; value: T} | {status: 'failed'; reason: string};
+type ApiResponseState<T> =
+  | {status: 'loading'}
+  | {status: 'loaded'; value: T}
+  | {status: 'failed'; reason: string};
 
 export default function useApiResponse<T>(fn: () => Promise<T>) {
   const [state, setState] = useState<ApiResponseState<T>>({status: 'loading'});
@@ -14,7 +17,10 @@ export default function useApiResponse<T>(fn: () => Promise<T>) {
       },
       (err) => {
         if (cancelled) return;
-        setState({status: 'failed', reason: `${err.message || err || `Unknown Error`}`});
+        setState({
+          status: 'failed',
+          reason: `${err.message || err || `Unknown Error`}`,
+        });
       },
     );
     return () => {

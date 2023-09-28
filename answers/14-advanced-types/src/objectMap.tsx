@@ -5,7 +5,10 @@ export default function objectMap<TObj extends {}, TResult>(
   fn: (value: TObj[keyof TObj], key: keyof TObj) => TResult,
 ): {[key in keyof TObj]: TResult} {
   const result = Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => [key, fn(value as TObj[keyof TObj], key as keyof TObj)]),
+    Object.entries(obj).map(([key, value]) => [
+      key,
+      fn(value as TObj[keyof TObj], key as keyof TObj),
+    ]),
   );
   // @ts-expect-error
   return result;

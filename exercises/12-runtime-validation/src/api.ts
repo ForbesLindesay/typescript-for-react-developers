@@ -11,7 +11,9 @@ export async function getContacts(): Promise<Contact[]> {
 }
 
 export async function getAccounts(contactId: number): Promise<Account[]> {
-  const result = await fetch(`http://localhost:8000/contacts/${contactId}/accounts`);
+  const result = await fetch(
+    `http://localhost:8000/contacts/${contactId}/accounts`,
+  );
   if (!result.ok) {
     throw new Error(`API failed: ${await result.text()}`);
   }

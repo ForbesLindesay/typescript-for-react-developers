@@ -1,7 +1,10 @@
 import React from 'react';
 
 export default function usePreviewURL(file: File | null) {
-  const ref = React.useRef<{file: null | File; preview: null | string}>({file: null, preview: null});
+  const ref = React.useRef<{file: null | File; preview: null | string}>({
+    file: null,
+    preview: null,
+  });
 
   if (file !== ref.current.file) {
     ref.current.file = file;

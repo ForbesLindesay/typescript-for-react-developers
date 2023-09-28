@@ -9,9 +9,15 @@ export default function Counter() {
 
   return (
     <div>
-      <button onClick={() => setCount(mapNumber(count, (c) => Math.max(0, c - 1)))}>-</button>
+      <button
+        onClick={() => setCount(mapNumber(count, (c) => Math.max(0, c - 1)))}
+      >
+        -
+      </button>
       <span>{count}</span>
-      <button onClick={() => setCount(mapNumber(count, (c) => c + 1))}>+</button>
+      <button onClick={() => setCount(mapNumber(count, (c) => c + 1))}>
+        +
+      </button>
       <button
         className="toggle-mode"
         onClick={() => {

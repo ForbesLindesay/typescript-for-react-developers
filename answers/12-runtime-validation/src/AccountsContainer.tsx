@@ -7,7 +7,10 @@ export interface AccountsContainerProps {
   contactId: number;
 }
 export default function AccountsContainer({contactId}: AccountsContainerProps) {
-  const getAccountsMemo = useCallback(() => getAccounts(contactId), [contactId]);
+  const getAccountsMemo = useCallback(
+    () => getAccounts(contactId),
+    [contactId],
+  );
   const accountsState = useApiResponse(getAccountsMemo);
   switch (accountsState.status) {
     case 'loading':

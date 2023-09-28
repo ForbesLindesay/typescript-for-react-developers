@@ -18,7 +18,9 @@ const App: React.FC = () => {
             return <p key={post.id}>{post.body}</p>;
           }
           if (isImagePost(post)) {
-            return <img key={post.id} src={post.src} alt="User Uploaded File" />;
+            return (
+              <img key={post.id} src={post.src} alt="User Uploaded File" />
+            );
           }
           return assertNever(post);
         })}

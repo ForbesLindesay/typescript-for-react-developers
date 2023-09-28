@@ -1,6 +1,8 @@
 import {GraphOperation} from './operations';
 
-type Result<TResult> = {ok: true; data: TResult} | {ok: false; data: unknown; errors: unknown[]};
+type Result<TResult> =
+  | {ok: true; data: TResult}
+  | {ok: false; data: unknown; errors: unknown[]};
 
 type ExecuteFn<TVariables, TResult> = TVariables extends {}
   ? (variables?: TVariables) => Promise<Result<TResult>>

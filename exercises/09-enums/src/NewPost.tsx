@@ -33,13 +33,15 @@ export default function NewPost({onSubmit}: Props) {
   const [file, setFile] = React.useState<File | null>(null);
   const fileLink = usePreviewURL(file);
 
-  const {getRootProps, getInputProps, isDragActive, isDragReject} = useDropzone({
-    accept: {'image/*': []},
-    multiple: false,
-    noClick: true,
-    noKeyboard: true,
-    onDrop: (files) => setFile(files[0]),
-  });
+  const {getRootProps, getInputProps, isDragActive, isDragReject} = useDropzone(
+    {
+      accept: {'image/*': []},
+      multiple: false,
+      noClick: true,
+      noKeyboard: true,
+      onDrop: (files) => setFile(files[0]),
+    },
+  );
 
   const style = React.useMemo(
     () => ({
@@ -76,7 +78,11 @@ export default function NewPost({onSubmit}: Props) {
       {fileLink ? (
         <img src={fileLink} alt="User Uploaded File" />
       ) : (
-        <textarea placeholder="Type a post or drop an image" value={text} onChange={(e) => setText(e.target.value)} />
+        <textarea
+          placeholder="Type a post or drop an image"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
       )}
       <button type="submit">Add Post</button>
     </form>

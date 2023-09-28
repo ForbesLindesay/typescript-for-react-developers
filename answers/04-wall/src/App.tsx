@@ -17,7 +17,9 @@ const App: React.FC = () => {
             case 'text':
               return <p key={post.id}>{post.body}</p>;
             case 'image':
-              return <img key={post.id} src={post.src} alt="User Uploaded File" />;
+              return (
+                <img key={post.id} src={post.src} alt="User Uploaded File" />
+              );
           }
         })}
       </header>
