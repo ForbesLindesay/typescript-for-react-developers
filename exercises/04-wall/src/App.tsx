@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
 import NewPost from './NewPost';
+import Post from './types';
 
 const App: React.FC = () => {
-  const [posts, setPosts] = React.useState([]);
+  const [posts, setPosts] = React.useState<Post[]>([]);
   return (
     <div className="App">
       <header className="App-header">

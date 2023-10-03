@@ -1,13 +1,11 @@
 import React from 'react';
 
-export default function Hello(props: {name: string; language: string}) {
-  if (!props.name) props.name = 'Anonymous';
-  if (!props.language) props.language = 'TypeScript';
+export default function Hello({name = 'Anonymous', language = 'TypeScript'}: {name?: string; language?: string}) {
 
   return (
     <p>
-      Hello {props.name}, welcome to this workshop on using React with{' '}
-      {props.language}
+      Hello {name}, welcome to this workshop on using React with{' '}
+      {language}
     </p>
   );
 }

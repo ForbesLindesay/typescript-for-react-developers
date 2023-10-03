@@ -1,6 +1,6 @@
-export default function debounce(fn, time: number = 100) {
+export default function debounce<TArgs extends unknown[]>(fn: (...args: TArgs) => void, time: number = 100) {
   let pending: NodeJS.Timeout | undefined;
-  return (...args) => {
+  return (...args: TArgs) => {
     if (pending) {
       clearTimeout(pending);
     }

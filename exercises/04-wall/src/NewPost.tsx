@@ -2,6 +2,7 @@ import React from 'react';
 import {useDropzone} from 'react-dropzone';
 import cuid from 'cuid';
 import usePreviewURL from './usePreviewURL';
+import type Post from './types';
 
 const dropzoneStyle = {
   borderWidth: 2,
@@ -24,9 +25,9 @@ const dropzoneRejectStyle = {
   borderColor: '#DD3A0A',
 };
 
-export default function NewPost({onSubmit}) {
+export default function NewPost({onSubmit}: {onSubmit: (post: Post) => void}) {
   const [text, setText] = React.useState('');
-  const [file, setFile] = React.useState(null);
+  const [file, setFile] = React.useState<File|null>(null);
   const fileLink = usePreviewURL(file);
 
   const {getRootProps, getInputProps, isDragActive, isDragReject} = useDropzone(
