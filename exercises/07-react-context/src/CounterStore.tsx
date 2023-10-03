@@ -5,7 +5,7 @@ interface ICounterStore {
   increment: () => void;
   decrement: () => void;
 }
-const CounterStore = React.createContext<ICounterStore>();
+const CounterStore = React.createContext<ICounterStore>({count:0, increment:()=>{}, decrement: ()=>{}});
 
 export function CounterProvider(props: {
   children: React.ReactNode;
