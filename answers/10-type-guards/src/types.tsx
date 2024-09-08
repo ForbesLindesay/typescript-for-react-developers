@@ -3,7 +3,8 @@ export enum PostKind {
   image,
 }
 
-export function isTextPost(post: Post): post is TextPost {
+// => post is TextPost
+export function isTextPost(post: Post) {
   return post.kind === PostKind.text;
 }
 export interface TextPost {
@@ -11,7 +12,8 @@ export interface TextPost {
   id: string;
   body: string;
 }
-export function isImagePost(post: Post): post is ImagePost {
+// => post is ImagePost
+export function isImagePost(post: Post) {
   return post.kind === PostKind.image;
 }
 export interface ImagePost {

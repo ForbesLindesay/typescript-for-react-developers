@@ -23,6 +23,8 @@ const App: React.FC = () => {
                 return (
                   <img key={post.id} src={post.src} alt="User Uploaded File" />
                 );
+              default:
+                return post satisfies never;
             }
           }}
         />

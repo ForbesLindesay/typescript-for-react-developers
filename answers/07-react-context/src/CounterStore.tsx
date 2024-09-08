@@ -6,7 +6,9 @@ interface ICounterStore {
   decrement: () => void;
 }
 const CounterStore = React.createContext<ICounterStore>({
-  count: 0,
+  get count(): number {
+    throw new Error('Missing <CounterProvider>');
+  },
   increment: () => {
     throw new Error('Missing <CounterProvider>');
   },

@@ -1,4 +1,4 @@
-export default function debounce<TArgs extends any[]>(
+export default function debounce<TArgs extends unknown[]>(
   fn: (...args: TArgs) => void,
   time: number = 100,
 ): (...args: TArgs) => void {

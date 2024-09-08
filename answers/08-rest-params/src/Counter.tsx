@@ -1,40 +1,30 @@
 import React from 'react';
 import {toRoman, toArabic} from 'roman-numerals';
+import debounce from './debounce';
 
-interface State {
-  count: number | string;
-}
-export default class Counter extends React.Component<{}, State> {
-  state = {
-    count: 0,
-  };
-  private readonly _decrement = () => {
-    this.setState(({count}) => ({
-      count: mapNumber(count, (c) => Math.max(0, c - 1)),
-    }));
-  };
-  private readonly _increment = () => {
-    this.setState(({count}) => ({
-      count: mapNumber(count, (c) => c + 1),
-    }));
-  };
-  private readonly _toggleMode = () => {
-    this.setState(({count}) => ({
-      count: typeof count === 'string' ? toArabic(count) : toRoman(count),
-    }));
-  };
-  render() {
-    return (
-      <div>
-        <button onClick={this._decrement}>-</button>
-        <span>{this.state.count}</span>
-        <button onClick={this._increment}>+</button>
-        <button className="toggle-mode" onClick={this._toggleMode}>
-          Toggle Mode
-        </button>
-      </div>
+export default function Counter() {
+  const [count, setCount] = React.useState<number | string>(0);
+  const setCountDebounced = React.useMemo(() => debounce(setCount, 500), []);
+
+  const decrement = () =>
+    setCountDebounced((count) => mapNumber(count, (c) => Math.max(0, c - 1)));
+  const increment = () =>
+    setCountDebounced((count) => mapNumber(count, (c) => c + 1));
+  const toggleMode = () =>
+    setCountDebounced((count) =>
+      typeof count === 'string' ? toArabic(count) : toRoman(count),
     );
-  }
+
+  return (
+    <div>
+      <button onClick={decrement}>-</button>
+      <span>{count}</span>
+      <button onClick={increment}>+</button>
+      <button className="toggle-mode" onClick={toggleMode}>
+        Toggle Mode
+      </button>
+    </div>
+  );
 }
 
 function mapNumber<T extends string | number>(
