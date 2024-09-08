@@ -1,21 +1,22 @@
 {
-  "name": "typescript-for-react-developers",
+  "name": "@typescript-for-react-developers/workshop",
   "private": true,
-  "workspaces": [
-    "answers/*",
-    "backend/",
-    "exercises/*",
-    "scalar-types/",
-    "scripts/"
-  ],
-  "dependencies": {
-    "prettier": "^3.0.3"
+  "prettier": {
+    "printWidth": 80,
+    "quoteProps": "consistent"
   },
-  "resolutions": {
-    "@apollo/federation": "0.38.1"
+  "dependencies": {
+    "prettier": "^3.3.3"
   },
   "scripts": {
-    "prepared": "cd exercises/01-template && yarn start",
-    "prettier:write": "prettier --ignore-path .gitignore --write \"*.{ts,tsx,md,json,yaml,js,jsx,ts,tsx}\" \"{exercises,answers}/**/*.{ts,tsx,md,json,yaml,js,jsx,ts,tsx}\""
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,md}\"",
+    "lint": "pnpm run --parallel --filter \"*-valid\" lint",
+    "prepared": "pnpm run --filter \"@workshop/template-valid\" dev",
+    "typecheck": "pnpm run --parallel --filter \"*-valid\" typecheck"
+  },
+  "packageManager": "pnpm@9.6.0+sha256.dae0f7e822c56b20979bb5965e3b73b8bdabb6b8b8ef121da6d857508599ca35",
+  "engines": {
+    "node": ">=20.17.0"
   }
 }
