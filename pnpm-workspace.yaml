@@ -1,0 +1,3 @@
+packages:
+  - answers/*
+  - exercises/*

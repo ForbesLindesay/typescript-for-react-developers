@@ -1,0 +1,20 @@
+# General Operating System and Editor Files
+logs
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+.DS_Store
+.vscode
+.idea
+
+
+# Dependency directories
+node_modules/
+
+# Specific to this project
+.cache
+.env
+answers/*/build
+exercises/*/build
