@@ -1,9 +1,11 @@
 import { useState } from "react";
 import romanNumerals from "roman-numerals";
 
+type Mode = "arabic" | "roman";
+
 export default function Counter() {
   const [count, setCount] = useState(1);
-  const [mode, setMode] = useState<"arabic" | "roman">("arabic");
+  const [mode, setMode] = useState<Mode>("arabic");
 
   return (
     <>
@@ -32,7 +34,7 @@ export default function Counter() {
   );
 }
 
-function toggleMode(mode: "arabic" | "roman"): "arabic" | "roman" {
+function toggleMode(mode: Mode): Mode {
   switch (mode) {
     case "arabic":
       return "roman";
@@ -43,7 +45,7 @@ function toggleMode(mode: "arabic" | "roman"): "arabic" | "roman" {
   }
 }
 
-function renderNumber(count: number, mode: "arabic" | "roman"): string {
+function renderNumber(count: number, mode: Mode): string {
   switch (mode) {
     case "arabic":
       return count.toString();

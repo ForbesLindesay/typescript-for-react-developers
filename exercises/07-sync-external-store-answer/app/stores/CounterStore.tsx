@@ -1,5 +1,5 @@
 let currentValue = 1;
-const listeners = new Set();
+const listeners = new Set<() => void>();
 
 export function increment() {
   currentValue++;
@@ -19,7 +19,7 @@ export function decrement() {
 export function getCounterValue() {
   return currentValue;
 }
-export function subscribeToCounterChanges(listener) {
+export function subscribeToCounterChanges(listener: () => void) {
   listeners.add(listener);
   return () => {
     listeners.delete(listener);

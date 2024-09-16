@@ -1,5 +1,5 @@
 {
-  "name": "@workshop/sync-external-store",
+  "name": "@workshop/sync-external-store-valid",
   "private": true,
   "sideEffects": false,
   "type": "module",

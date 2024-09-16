@@ -1,5 +1,5 @@
 export default function debounce(fn: () => void, durationMilliseconds: number) {
-  let timeout;
+  let timeout: ReturnType<typeof setTimeout> | undefined;
   return (...args) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => {

@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.11.2",
+    "@total-typescript/ts-reset": "0.6.1",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@types/roman-numerals": "^0.3.2",

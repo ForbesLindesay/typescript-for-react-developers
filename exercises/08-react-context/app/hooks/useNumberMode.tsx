@@ -1,6 +1,6 @@
 import { useContext, createContext } from "react";
 
-const NumberModeContext = createContext("arabic");
+const NumberModeContext = createContext();
 
 export function useNumberMode() {
   return useContext(NumberModeContext);
