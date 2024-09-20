@@ -1,10 +1,13 @@
-export default function Hello(props: { name: string; language: string }) {
-  if (!props.language) props.language = "TypeScript";
-
+export default function Hello({
+  name,
+  language = "TypeScript",
+}: {
+  name: string;
+  language: string;
+}) {
   return (
     <p>
-      Hello {props.name}, welcome to this workshop on using React with{" "}
-      {props.language}
+      Hello {name}, welcome to this workshop on using React with {language}
     </p>
   );
 }
