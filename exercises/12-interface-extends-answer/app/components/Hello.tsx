@@ -1,7 +1,7 @@
-import Welcome, { WelcomeProps } from "./Welcome";
+import Welcome, { type WelcomeProps } from "./Welcome";
 
 export interface HelloProps extends WelcomeProps {
-  name: string;
+  name: string
 }
 
 export default function Hello({ name, ...otherProps }: HelloProps) {

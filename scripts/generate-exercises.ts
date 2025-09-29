@@ -717,6 +717,8 @@ createExerciseDirectory(
     INSTRUCTIONS.push(
       "See if you can add the missing types to make the `debounce` function work in `exercises/10-rest-params/app/utils/debounce.tsx`",
       ``,
+      "> `ReturnType<typeof setTimeout>` is the easiest type to use for a timeout that you later want to pass to `clearTimeout`",
+      ``,
     );
     updateFile(`app/utils/debounce.tsx`, (source) =>
       source
@@ -726,6 +728,190 @@ createExerciseDirectory(
           `function debounce`,
           `function debounce<TArgs extends unknown[]>`,
         ),
+    );
+  },
+);
+
+createExerciseDirectory(
+  `exercises/11-intersection-types`,
+  `@workshop/intersection-types`,
+  () => {
+    INSTRUCTIONS.push(
+      `## Exercise 11 - Intersection Types`,
+      ``,
+      "Similar to how `A | B` is a type that is either `A` or `B`, `A & B` is a type that is both `A` and `B` at the same time. This doesn't make sense for things like `string` and `number` (a value cannot be both a string and a number), but for objects, it effectively merges the properties of both objects.",
+      ``,
+    );
+  },
+  {
+    preserve: [`app/components/Hello.tsx`, `app/components/Welcome.tsx`],
+  },
+);
+
+const HELLO_PROPS_TYPE_INTERSECT = `export type HelloProps = WelcomeProps & { name: string }`;
+createExerciseDirectory(
+  `exercises/11-intersection-types-answer`,
+  `@workshop/intersection-types-valid`,
+  ({ updateFile }) => {
+    INSTRUCTIONS.push(
+      "Take a look at `exercises/11-intersection-types/app/components/Hello.tsx`. Add a type for the properties for the `Hello` component in terms of the properties of the `Welcome` component:",
+      ``,
+      "```ts",
+      HELLO_PROPS_TYPE_INTERSECT,
+      "```",
+    );
+    updateFile(`app/components/Hello.tsx`, (source) =>
+      source
+        .replace(
+          `import Welcome from`,
+          `import Welcome, { type WelcomeProps } from`,
+        )
+        .replace(
+          `export default function Hello({ name, ...otherProps })`,
+          HELLO_PROPS_TYPE_INTERSECT +
+            `\n\nexport default function Hello({ name, ...otherProps }: HelloProps)`,
+        ),
+    );
+  },
+);
+
+const HELLO_PROPS_TYPE_EXTENDS = `export interface HelloProps extends WelcomeProps {
+  name: string
+}`;
+createExerciseDirectory(
+  `exercises/12-interface-extends-answer`,
+  `@workshop/interface-extends-valid`,
+  ({ updateFile }) => {
+    INSTRUCTIONS.push(
+      `## Exercise 12 - Interface Extends`,
+      ``,
+      "There are cases where intersection is the only option, but an alternative in this case is to use `extends` with an interface type. This is generally slightly more performant for TypeScript and may give clearer error messages. Try replacing the intersection type with:",
+      ``,
+      "```tsx",
+      HELLO_PROPS_TYPE_EXTENDS,
+      "```",
+      ``,
+      `Everything should still work just like before.`,
+      ``,
+    );
+    updateFile(`app/components/Hello.tsx`, (source) =>
+      source.replace(HELLO_PROPS_TYPE_INTERSECT, HELLO_PROPS_TYPE_EXTENDS),
+    );
+  },
+);
+
+createExerciseDirectory(
+  `exercises/13-pick-omit`,
+  `@workshop/pick-omit`,
+  ({ writeFile, updateFile }) => {
+    const WELCOME_UPDATED = `export interface WelcomeProps {
+  language: string;
+  day: string;
+}
+
+export default function Welcome({ language, day }: WelcomeProps) {
+  return (
+    <>
+      welcome to this workshop on using React with {language} on {day}
+    </>
+  );
+}`;
+    const HELLO_UPDATED = `import Welcome, { type WelcomeProps } from "./Welcome";
+
+export interface HelloProps extends WelcomeProps {
+  name: string;
+}
+
+export default function Hello({ name, ...otherProps }: HelloProps) {
+  return (
+    <p>
+      Hello {name}, <Welcome {...otherProps} language="TypeScript" />
+    </p>
+  );
+}`;
+    const RENDER_BEFORE = `<Hello name="Your Name" />`;
+    const RENDER_UPDATED = `<Hello name="Your Name" day="Thursday" />`;
+    writeFile(`app/components/Welcome.tsx`, WELCOME_UPDATED + "\n");
+    writeFile(`app/components/Hello.tsx`, HELLO_UPDATED + "\n");
+    updateFile(`app/routes/home.tsx`, (source) =>
+      source.replace(RENDER_BEFORE, RENDER_UPDATED),
+    );
+    INSTRUCTIONS.push(
+      `## Exercise 13 - Pick and Omit`,
+      ``,
+      "Sometimes you only want to forward some props, not all props. Lets update our `Welcome` component to take 2 required props:",
+      ``,
+      "```tsx",
+      HELLO_PROPS_TYPE_EXTENDS,
+      "```",
+      ``,
+      "and replace `Hello` with:",
+      ``,
+      "```tsx",
+      HELLO_UPDATED,
+      "```",
+      ``,
+      "Then in `app/routes/home.tsx` you can try to render:",
+      ``,
+      "```diff",
+      `- <Hello name="Your Name" />`,
+      `+ ${RENDER_UPDATED}`,
+      "```",
+      ``,
+      "but you'll see a TypeScript error telling you that you need to pass `language` to `Hello`, even though we know `Hello` doesn't use the `language` property.",
+      ``,
+      `There are two ways you can fix this.`,
+      ``,
+    );
+  },
+);
+
+createExerciseDirectory(
+  `exercises/13-pick-omit-answer-1`,
+  `@workshop/pick-valid`,
+  ({ updateFile }) => {
+    INSTRUCTIONS.push(
+      `### Pick`,
+      ``,
+      "You can use `Pick` to explicitly list which props you want to include:",
+      ``,
+      "```diff",
+      `- export interface HelloProps extends WelcomeProps {`,
+      `+ export interface HelloProps extends Pick<WelcomeProps, "day"> {`,
+      "```",
+      ``,
+      "this will need updating any time we add new props to the `Welcome` component though.",
+    );
+    updateFile(`app/components/Hello.tsx`, (source) =>
+      source.replace(
+        `extends WelcomeProps`,
+        `extends Pick<WelcomeProps, "day">`,
+      ),
+    );
+  },
+);
+
+createExerciseDirectory(
+  `exercises/13-pick-omit-answer-2`,
+  `@workshop/omit-valid`,
+  ({ updateFile }) => {
+    INSTRUCTIONS.push(
+      `### Omit`,
+      ``,
+      "Probably a better option in this particular example is to list the props we don't want to include:",
+      ``,
+      "```diff",
+      `- export interface HelloProps extends Pick<WelcomeProps, "day"> {`,
+      `+ export interface HelloProps extends Omit<WelcomeProps, "language"> {`,
+      "```",
+      ``,
+      "this will automatically include any new props added to `Welcome` unless they are also omitted here.",
+    );
+    updateFile(`app/components/Hello.tsx`, (source) =>
+      source.replace(
+        `extends Pick<WelcomeProps, "day">`,
+        `extends Omit<WelcomeProps, "language">`,
+      ),
     );
   },
 );
