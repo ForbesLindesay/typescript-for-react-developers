@@ -1,6 +1,7 @@
 // fnm use 24
 // node --experimental-strip-types scripts/generate-exercises.ts
 
+import { spawnSync } from "child_process";
 import * as fs from "fs";
 import { dirname, join, relative, resolve } from "path";
 
@@ -36,6 +37,10 @@ interface Context {
   writeFile: (path: string, content: string) => void;
   updateFile: (path: string, fn: (content: string) => string) => void;
 }
+const exerciseDirectories: {
+  exerciseDirectory: string;
+  name: string;
+}[] = [];
 function createExerciseDirectory(
   exerciseDirectory: string,
   name: string,
@@ -77,6 +82,8 @@ function createExerciseDirectory(
     },
   });
   lastExercise = exerciseDirectory;
+
+  exerciseDirectories.push({ exerciseDirectory, name });
 }
 
 const HELLO_COMPONENT = (
@@ -567,10 +574,75 @@ createExerciseDirectory(
         .replace(/any/g, `T`)
         .replace(`function List`, `function List<T>`),
     );
+    INSTRUCTIONS.push(
+      fs.readFileSync(`scripts/covariance-and-readonly-types.md`, "utf8"),
+    );
   },
 );
 
-INSTRUCTIONS.push(
-  fs.readFileSync(`scripts/covariance-and-readonly-types.md`, "utf8"),
+createExerciseDirectory(
+  `exercises/07-sync-external-store`,
+  `@workshop/sync-external-store`,
+  () => {
+    INSTRUCTIONS.push(
+      fs.readFileSync(`scripts/sync-external-store.md`, "utf8"),
+    );
+  },
+  {
+    preserve: [`app/stores/CounterStore.tsx`, `app/components/Counter.tsx`],
+  },
 );
-console.log(INSTRUCTIONS.join("\n"));
+
+createExerciseDirectory(
+  `exercises/07-sync-external-store-answer`,
+  `@workshop/sync-external-store-valid`,
+  ({ updateFile }) => {
+    INSTRUCTIONS.push(
+      "Take a look at how we're using this in `exercises/07-sync-external-store/app/components/Counter.tsx` and then add types to `exercises/07-sync-external-store/app/stores/CounterStore.tsx` to fix the type errors. The `listener` should have a type of `() => void`.",
+      ``,
+      "If you want, you could also add an explicit return type to `getCounterValue`. You don't need to specify a return type here, but adding explicit return types is often a really good idea if you find TypeScript is running slower than you expect, or if it's producing errors that you are struggling to understand.",
+      ``,
+    );
+    updateFile(`app/stores/CounterStore.tsx`, (source) =>
+      source
+        .replace(
+          `function getCounterValue()`,
+          `function getCounterValue(): number`,
+        )
+        .replace(
+          `function subscribeToCounterChanges(listener)`,
+          `function subscribeToCounterChanges(listener: () => void): () => void`,
+        )
+        .replace(
+          `const listeners = new Set()`,
+          `const listeners = new Set<() => void>()`,
+        ),
+    );
+  },
+);
+
+{
+  const spawnResult = spawnSync(`pnpm`, [`install`], { stdio: "inherit" });
+  if (spawnResult.status) {
+    process.exit(spawnResult.status);
+  }
+}
+
+for (const { exerciseDirectory, name } of exerciseDirectories) {
+  console.log(`Checking ${exerciseDirectory}`);
+  const spawnResult = spawnSync(`pnpm`, [`run`, `typecheck`], {
+    cwd: exerciseDirectory,
+  });
+  if ((spawnResult.status === 0) !== name.endsWith("-valid")) {
+    console.error(
+      `Exercise ${exerciseDirectory} ${
+        spawnResult.status === 0 ? "should" : "shouldn't"
+      } have type errors`,
+    );
+    console.error(spawnResult.stdout.toString());
+    console.error(spawnResult.stderr.toString());
+    process.exit(1);
+  }
+}
+
+fs.writeFileSync(`INSTRUCTIONS.md`, INSTRUCTIONS.join("\n"));

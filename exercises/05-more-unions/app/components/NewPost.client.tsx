@@ -13,7 +13,11 @@ export default function NewPost({ onSubmit }) {
       noKeyboard: true,
       // NOTE: URL.createObjectURL will result in a memory leak because we never call URL.revokeObjectURL.
       //       We would need to fix this if this was a real application, with a real backend.
-      onDrop: (files) => setFileUrl(URL.createObjectURL(files[0])),
+      onDrop: (files) => {
+        if (files[0]) {
+          setFileUrl(URL.createObjectURL(files[0]));
+        }
+      },
     });
 
   return (
