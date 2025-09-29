@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import Post from "../types";
+import { type Post } from "../types";
 
-export interface NewPostProps {
-  onSubmit: (post: Post) => void;
-}
-
-export default function NewPost({ onSubmit }: NewPostProps) {
+export default function NewPost({ onSubmit }: { onSubmit: (post: Post) => void }) {
   const [text, setText] = useState("");
   const [fileUrl, setFileUrl] = useState<string | null>(null);
 
@@ -18,7 +14,11 @@ export default function NewPost({ onSubmit }: NewPostProps) {
       noKeyboard: true,
       // NOTE: URL.createObjectURL will result in a memory leak because we never call URL.revokeObjectURL.
       //       We would need to fix this if this was a real application, with a real backend.
-      onDrop: (files) => setFileUrl(URL.createObjectURL(files[0])),
+      onDrop: (files) => {
+        if (files[0]) {
+          setFileUrl(URL.createObjectURL(files[0]));
+        }
+      },
     });
 
   return (

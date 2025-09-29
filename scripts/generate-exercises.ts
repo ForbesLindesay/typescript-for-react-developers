@@ -621,6 +621,38 @@ createExerciseDirectory(
   },
 );
 
+createExerciseDirectory(
+  `exercises/08-react-context`,
+  `@workshop/react-context`,
+  () => {
+    INSTRUCTIONS.push(
+      `## Exercise 8 - React Context`,
+      ``,
+      fs.readFileSync(`scripts/react-context.md`, "utf8"),
+    );
+  },
+  {
+    preserve: [
+      `app/hooks/useNumberMode.tsx`,
+      `app/components/Counter.tsx`,
+      `app/routes/home.tsx`,
+    ],
+  },
+);
+
+createExerciseDirectory(
+  `exercises/08-react-context-answer`,
+  `@workshop/react-context-valid`,
+  ({ updateFile }) => {
+    updateFile(`app/hooks/useNumberMode.tsx`, (source) =>
+      source.replace(
+        `const NumberModeContext = createContext();`,
+        `const NumberModeContext = createContext<"arabic" | "roman">("arabic");`,
+      ),
+    );
+  },
+);
+
 {
   const spawnResult = spawnSync(`pnpm`, [`install`], { stdio: "inherit" });
   if (spawnResult.status) {
