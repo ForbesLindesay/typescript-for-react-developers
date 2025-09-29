@@ -694,6 +694,42 @@ createExerciseDirectory(
   },
 );
 
+createExerciseDirectory(
+  `exercises/10-rest-params`,
+  `@workshop/rest-params`,
+  () => {
+    INSTRUCTIONS.push(
+      `## Exercise 10 - Rest Parameters`,
+      ``,
+      fs.readFileSync(`scripts/rest-params.md`, "utf8"),
+      ``,
+    );
+  },
+  {
+    preserve: [`app/components/Wall.tsx`, `app/utils/debounce.tsx`],
+  },
+);
+
+createExerciseDirectory(
+  `exercises/10-rest-params-answer`,
+  `@workshop/rest-params-valid`,
+  ({ updateFile }) => {
+    INSTRUCTIONS.push(
+      "See if you can add the missing types to make the `debounce` function work in `exercises/10-rest-params/app/utils/debounce.tsx`",
+      ``,
+    );
+    updateFile(`app/utils/debounce.tsx`, (source) =>
+      source
+        .replace(`fn: () => void`, `fn: (...args: TArgs) => void`)
+        .replace(`(...args) =>`, `(...args: TArgs) =>`)
+        .replace(
+          `function debounce`,
+          `function debounce<TArgs extends unknown[]>`,
+        ),
+    );
+  },
+);
+
 {
   const spawnResult = spawnSync(`pnpm`, [`install`], { stdio: "inherit" });
   if (spawnResult.status) {
