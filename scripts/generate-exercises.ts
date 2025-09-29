@@ -653,6 +653,47 @@ createExerciseDirectory(
   },
 );
 
+createExerciseDirectory(
+  `exercises/09-ref-forwarding`,
+  `@workshop/ref-forwarding-valid`,
+  () => {
+    INSTRUCTIONS.push(
+      `## Exercise 9 - Ref Forwarding`,
+      ``,
+      "It's often useful to have a component that can render as a `<button>` tag or an `<a>` tag depending on props, because many apps want to apply identical styles to buttons and links. We may want to forward refs to the underlying tags so we can do things like manually focusing the button/link.",
+      ``,
+      `Refs can be difficult to type correctly but in this example we should be able to use separate ref types for the two types.`,
+      ``,
+    );
+  },
+  {
+    preserve: [
+      `app/components/Button.tsx`,
+      `app/components/NewPost.client.tsx`,
+    ],
+  },
+);
+
+createExerciseDirectory(
+  `exercises/09-ref-forwarding-answer`,
+  `@workshop/ref-forwarding-answer-valid`,
+  ({ updateFile }) => {
+    INSTRUCTIONS.push(
+      "Replace `any` with `HTMLAnchorElement` or `HTMLButtonElement` as appropriate in `app/components/Button.tsx`.",
+      ``,
+      `Note that we're using React.ForwardedRef<T> here because it's a simpler type than React.Ref<T>.`,
+      ``,
+      "> You used to have to wrap components like this with `React.forwardRef`, but now you can just accept `ref` like any other property.",
+    );
+
+    updateFile(`app/components/Button.tsx`, (source) =>
+      source
+        .replace(`any`, `HTMLAnchorElement`)
+        .replace(`any`, `HTMLButtonElement`),
+    );
+  },
+);
+
 {
   const spawnResult = spawnSync(`pnpm`, [`install`], { stdio: "inherit" });
   if (spawnResult.status) {
