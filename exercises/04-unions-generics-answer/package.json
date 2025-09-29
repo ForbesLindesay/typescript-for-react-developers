@@ -14,6 +14,7 @@
     "isbot": "^5.1.31",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-dropzone": "^14.2.3",
     "react-router": "^7.9.2",
     "roman-numerals": "^0.3.2"
   },

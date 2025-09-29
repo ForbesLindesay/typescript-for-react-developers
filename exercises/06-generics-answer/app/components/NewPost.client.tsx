@@ -1,12 +1,8 @@
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import Post from "../types";
+import { type Post } from "../types";
 
-export interface NewPostProps {
-  onSubmit: (post: Post) => void;
-}
-
-export default function NewPost({ onSubmit }: NewPostProps) {
+export default function NewPost({ onSubmit }: { onSubmit: (post: Post) => void }) {
   const [text, setText] = useState("");
   const [fileUrl, setFileUrl] = useState<string | null>(null);
 

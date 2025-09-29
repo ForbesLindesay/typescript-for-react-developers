@@ -2,7 +2,7 @@
 // node --experimental-strip-types scripts/generate-exercises.ts
 
 import * as fs from "fs";
-import { join, relative, resolve } from "path";
+import { dirname, join, relative, resolve } from "path";
 
 function copyDir(srcRelative: string, dest: string) {
   const src = resolve(srcRelative);
@@ -34,6 +34,7 @@ let lastExercise = `exercises/01-template`;
 interface Context {
   readFile: (path: string) => string;
   writeFile: (path: string, content: string) => void;
+  updateFile: (path: string, fn: (content: string) => string) => void;
 }
 function createExerciseDirectory(
   exerciseDirectory: string,
@@ -60,6 +61,7 @@ function createExerciseDirectory(
     ) + "\n",
   );
   for (let { path, content } of preserved || []) {
+    fs.mkdirSync(dirname(join(exerciseDirectory, path)), { recursive: true });
     fs.writeFileSync(join(exerciseDirectory, path), content);
   }
   fn({
@@ -68,6 +70,10 @@ function createExerciseDirectory(
     },
     writeFile(path, content) {
       fs.writeFileSync(join(exerciseDirectory, path), content);
+    },
+    updateFile(path, fn) {
+      const fullPath = join(exerciseDirectory, path);
+      fs.writeFileSync(fullPath, fn(fs.readFileSync(fullPath, "utf8")));
     },
   });
   lastExercise = exerciseDirectory;
@@ -189,7 +195,7 @@ createExerciseDirectory(
 createExerciseDirectory(
   `exercises/03-optional-props`,
   `@workshop/optional-props`,
-  ({ readFile, writeFile }) => {
+  ({ updateFile }) => {
     INSTRUCTIONS.push(
       `## Exercise 3 - Optional Prop Types`,
       ``,
@@ -253,9 +259,8 @@ createExerciseDirectory(
       `You should see a TypeScript error.`,
       ``,
     );
-    writeFile(
-      `app/routes/home.tsx`,
-      readFile(`app/routes/home.tsx`).replace(/ language="TypeScript"/g, ""),
+    updateFile(`app/routes/home.tsx`, (source) =>
+      source.replace(/ language="TypeScript"/g, ""),
     );
   },
 );
@@ -331,10 +336,11 @@ createExerciseDirectory(
   },
   { preserve: ["app/components/Counter.tsx"] },
 );
+
 createExerciseDirectory(
   `exercises/04-unions-generics-answer`,
   `@workshop/unions-generics-answer-valid`,
-  ({ readFile, writeFile }) => {
+  ({ updateFile }) => {
     const modeType = `type Mode = "arabic" | "roman"`;
     const replacements = [
       [
@@ -394,13 +400,10 @@ createExerciseDirectory(
       `This converts a potential runtime error into a TypeScript error.`,
     );
 
-    // throw new Error("Invalid mode, expected 'arabic' or 'roman'");
-    // return mode satisfies never;
-    writeFile(
-      `app/components/Counter.tsx`,
+    updateFile(`app/components/Counter.tsx`, (source) =>
       replacements.reduce(
         (source, [from, to]) => source.replace(from, to),
-        readFile(`app/components/Counter.tsx`)
+        source
           .replace(`export `, modeType + `\n\nexport `)
           .replace(`useState("arabic")`, `useState<Mode>("arabic")`)
           .replace(/throw [^;]+;/gm, `return mode satisfies never;`),
@@ -409,4 +412,165 @@ createExerciseDirectory(
   },
 );
 
+createExerciseDirectory(
+  `exercises/05-more-unions`,
+  `@workshop/more-unions`,
+  () => {
+    INSTRUCTIONS.push(
+      `## Exercise 5 - More Unions`,
+      ``,
+      "Open `exercises/05-more-unions`. It contains a very simple social media app with a wall that you can post to, but it doesn't yet have a type for those `Post` objects. Each post can be either an image, or some plain text.",
+      ``,
+      `When declaring object types, you can write them inline, you can also give them an alias, or you can declare them as an interface:`,
+      ``,
+      "```ts",
+      `type ObjectTypeWithAlias = {x: number};`,
+      ``,
+      `interface ObjectTypeViaInterface {`,
+      `  x: number;`,
+      `}`,
+      "```",
+      ``,
+      "The advantage of the `interface` approach is that the name is always associated with the type in error messages. It can also sometimes make TypeScript's type checking faster due to better caching optimizations, so I generally prefer interfaces over type aliases.",
+      ``,
+      `In the previous exercise, we saw how you can use a union to tell TypeScript that a variable has one of two possible values. This doesn't only work with literal types; it also works with object types.`,
+    );
+  },
+  {
+    preserve: [
+      `app/components/NewPost.client.tsx`,
+      `app/components/Wall.tsx`,
+      `app/hooks/useIsHydrated.tsx`,
+      `app/routes/home.tsx`,
+    ],
+  },
+);
+
+createExerciseDirectory(
+  `exercises/05-more-unions-answer`,
+  `@workshop/more-unions-valid`,
+  ({ writeFile, updateFile }) => {
+    const FILE_PATH = `app/types.tsx`;
+    const FILE_CONTENTS = `export interface TextPost {
+  kind: "text";
+  id: string;
+  body: string;
+}
+export interface ImagePost {
+  kind: "image";
+  id: string;
+  src: string;
+}
+
+export type Post = TextPost | ImagePost;
+`;
+    INSTRUCTIONS.push(
+      `To fix this, create a new file \`${FILE_PATH}\` with the contents:`,
+      ``,
+      "```ts",
+      FILE_CONTENTS,
+      "```",
+      ``,
+      "This defines two types of post along with a union type called `Post` that can be either one type or the other.",
+      ``,
+      `Then fix the type errors by specifying the right types for props and state`,
+      ``,
+      ``,
+      " 1. Specify the type for `fileUrl` in `useState` in `NewPost.client.tsx` as `string | null` (see previous exercise for how to specify the type in a `useState` call)",
+      " 2. Specify the type for the `onSubmit` property in `NewPost.client.tsx` as `(post: Post) => void`",
+      " 3. Specify the type for the `posts` in `useState` in `Wall.tsx` as `Post[]`",
+      ``,
+    );
+
+    writeFile(FILE_PATH, FILE_CONTENTS);
+    updateFile(`app/components/NewPost.client.tsx`, (source) =>
+      source
+        .replace(
+          `{ onSubmit }`,
+          `{ onSubmit }: { onSubmit: (post: Post) => void }`,
+        )
+        .replace(`useState(null)`, `useState<string | null>(null)`)
+        .replace(`\n\n`, `\nimport { type Post } from "../types";\n\n`),
+    );
+    updateFile(`app/components/Wall.tsx`, (source) =>
+      source
+        .replace(`useState([])`, `useState<Post[]>([])`)
+        .replace(`\n\n`, `\nimport { type Post } from "../types";\n\n`),
+    );
+  },
+);
+
+createExerciseDirectory(
+  `exercises/06-generics`,
+  `@workshop/generics`,
+  () => {
+    INSTRUCTIONS.push(
+      `## Exercise 6 - Generics - part 2`,
+      ``,
+      `### Array Types`,
+      ``,
+      `There are two styles you can use for declaring an array type:`,
+      ``,
+      "```tsx",
+      `// Using the "generics" syntax:`,
+      `type Strings = Array<string>`,
+      ``,
+      `// Using the array shorthand:`,
+      `type Strings = string[]`,
+      "```",
+      ``,
+      `I generally use the shorthand because I find it to be more readable, but they are 100% equivalent so just decide what to use in your team and all use the same style.`,
+      ``,
+      `One caveat is that if you have an inline union, you need to put it in parentheses when using the array shorthand:`,
+      ``,
+      "```tsx",
+      `// Using the "generics" syntax:`,
+      `type NullableStrings = Array<string | null>`,
+      ``,
+      `// Using the array shorthand:`,
+      `type NullableStrings = (string | null)[]`,
+      "```",
+      ``,
+      `### Generic Components`,
+      ``,
+      `When you declare something with a function, class, interface or type alias, you can use a place holder instead of a concrete type for things that vary. For example:`,
+      ``,
+      "```tsx",
+      `function RenderTwice<T>(props: {value: T, render: (value: T) => React.ReactNode}) {`,
+      `  return (`,
+      `    <div>`,
+      `      {render(value)}`,
+      `      {render(value)}`,
+      `    </div>`,
+      `  );`,
+      `}`,
+      "```",
+      ``,
+      "Here we're saying you can give us a value of type `T` and a function that accepts a value of type `T` and that we will support any such value, but will always use the same value consistently. To declare a generic type/function/class, you always add the `<T>` after the name of the type/function/class.",
+      ``,
+      "> By convention, `T` is used as the name for a generic parameter if there is no better name that can be given to it. If it can have a better name, the convention is to prefix that name with `T` to indicate it is a generic parameter. e.g. `type MyArrayType<TItem> = TItem[]` would be easier to understand than `type MyArrayType<T> = T[]`.",
+      ``,
+      "Take a look at `exercises/06-generics/app/components/List.tsx` and see if you can remove all the `any` types. The `any` types are a problem because they mean TypeScript isn't really checking our work.",
+      ``,
+    );
+  },
+  { preserve: [`app/components/List.tsx`, `app/components/Wall.tsx`] },
+);
+
+createExerciseDirectory(
+  `exercises/06-generics-answer`,
+  `@workshop/generics-valid`,
+  ({ updateFile }) => {
+    updateFile(`app/components/List.tsx`, (source) =>
+      source
+        .replace(/ListProps/g, `ListProps<T>`)
+        .replace(/any/g, `T`)
+        .replace(`function List`, `function List<T>`),
+    );
+  },
+);
+
+INSTRUCTIONS.push(
+  fs.readFileSync(`scripts/covariance-and-readonly-types.md`, "utf8"),
+);
 console.log(INSTRUCTIONS.join("\n"));

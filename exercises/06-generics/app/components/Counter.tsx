@@ -1,7 +1,7 @@
 import { useState } from "react";
 import romanNumerals from "roman-numerals";
 
-type Mode = "arabic" | "roman";
+type Mode = "arabic" | "roman"
 
 export default function Counter() {
   const [count, setCount] = useState(1);
