@@ -1,8 +1,6 @@
-import Welcome, { WelcomeProps } from "./Welcome";
+import Welcome, { type WelcomeProps } from "./Welcome";
 
-export type HelloProps = WelcomeProps & {
-  name: string;
-};
+export type HelloProps = WelcomeProps & { name: string }
 
 export default function Hello({ name, ...otherProps }: HelloProps) {
   return (

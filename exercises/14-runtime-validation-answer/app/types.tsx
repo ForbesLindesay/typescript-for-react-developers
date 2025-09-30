@@ -1,4 +1,4 @@
-import "@total-typescript/ts-reset";
+import '@total-typescript/ts-reset';
 import * as t from "funtypes";
 
 const TextPostSchema = t.Named(
@@ -22,7 +22,4 @@ const ImagePostSchema = t.Named(
 export type ImagePost = t.Static<typeof ImagePostSchema>;
 
 export const PostSchema = t.Union(TextPostSchema, ImagePostSchema);
-
-type Post = TextPost | ImagePost;
-
-export default Post;
+export type Post = t.Static<typeof PostSchema>;

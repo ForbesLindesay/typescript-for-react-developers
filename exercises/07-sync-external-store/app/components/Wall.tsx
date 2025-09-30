@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NewPost from "./NewPost.client";
 import useIsHydrated from "../hooks/useIsHydrated";
-import Post from "../types";
+import { type Post } from "../types";
 import List from "./List";
 
 export default function Wall() {

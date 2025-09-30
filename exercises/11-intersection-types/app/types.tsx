@@ -9,6 +9,4 @@ export interface ImagePost {
   src: string;
 }
 
-type Post = TextPost | ImagePost;
-
-export default Post;
+export type Post = TextPost | ImagePost;

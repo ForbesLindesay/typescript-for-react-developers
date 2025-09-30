@@ -16,10 +16,10 @@ export function decrement() {
   }
 }
 
-export function getCounterValue() {
+export function getCounterValue(): number {
   return currentValue;
 }
-export function subscribeToCounterChanges(listener: () => void) {
+export function subscribeToCounterChanges(listener: () => void): () => void {
   listeners.add(listener);
   return () => {
     listeners.delete(listener);

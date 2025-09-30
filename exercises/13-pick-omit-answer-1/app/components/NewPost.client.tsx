@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
-import Post from "../types";
+import { type Post } from "../types";
 import Button from "./Button";
 
 export interface NewPostProps {
@@ -19,7 +19,9 @@ export default function NewPost({ onSubmit }: NewPostProps) {
       noKeyboard: true,
       // NOTE: URL.createObjectURL will result in a memory leak because we never call URL.revokeObjectURL.
       //       We would need to fix this if this was a real application, with a real backend.
-      onDrop: (files) => setFileUrl(URL.createObjectURL(files[0])),
+      onDrop: (files) => {
+        if (files[0]) setFileUrl(URL.createObjectURL(files[0]));
+      },
     });
 
   return (
@@ -62,7 +64,14 @@ export default function NewPost({ onSubmit }: NewPostProps) {
           onChange={(e) => setText(e.target.value)}
         />
       )}
-      <Button type="submit">Add Post</Button>
+      <Button
+        type="submit"
+        ref={(element) => {
+          if (element) element.focus();
+        }}
+      >
+        Add Post
+      </Button>
       <Button href="http://example.com">My Link</Button>
     </form>
   );

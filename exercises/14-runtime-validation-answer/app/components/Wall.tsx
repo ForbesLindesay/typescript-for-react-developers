@@ -2,7 +2,7 @@ import * as t from "funtypes";
 import { useEffect, useMemo, useState } from "react";
 import NewPost from "./NewPost.client";
 import useIsHydrated from "../hooks/useIsHydrated";
-import Post, { PostSchema } from "../types";
+import { type Post, PostSchema } from "../types";
 import List from "./List";
 import debounce from "../utils/debounce";
 

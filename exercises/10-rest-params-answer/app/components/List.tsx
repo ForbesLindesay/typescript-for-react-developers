@@ -1,8 +1,8 @@
-export interface ListProps<TItem> {
-  items: readonly TItem[];
-  renderItem(item: TItem): React.ReactNode;
+export interface ListProps<T> {
+  items: readonly T[];
+  renderItem(item: T): React.ReactNode;
 }
 
-export default function List<TItem>(props: ListProps<TItem>) {
+export default function List<T>(props: ListProps<T>) {
   return <>{props.items.map(props.renderItem)}</>;
 }
