@@ -86,6 +86,10 @@ function createExerciseDirectory(
   exerciseDirectories.push({ exerciseDirectory, name });
 }
 
+const INSTRUCTIONS: string[] = [];
+
+INSTRUCTIONS.push(fs.readFileSync(`scripts/intro.md`, "utf8"));
+
 const HELLO_COMPONENT = (
   withTypes: boolean,
 ) => `export default function Hello(props${withTypes ? `: {name: string; language: string}` : ""}) {
@@ -98,7 +102,6 @@ const HELLO_COMPONENT = (
 }
 `;
 
-const INSTRUCTIONS: string[] = [];
 createExerciseDirectory(
   `exercises/02-prop-types`,
   `@workshop/prop-types`,
@@ -915,6 +918,103 @@ createExerciseDirectory(
     );
   },
 );
+
+createExerciseDirectory(
+  `exercises/14-runtime-validation`,
+  `@workshop/runtime-validation-valid`,
+  () => {
+    INSTRUCTIONS.push(
+      `## Exercise 14 - Runtime Type Validation`,
+      ``,
+      `When you call external APIs, you don't generally have any guarantee about the type that's returned. You can always read the docs and write type definitions to match what you expect, but sometimes you may want to guard against unexpected changes in the API, and sometimes you just make mistakes when reading the docs. If you validate types right away, issues will be easier to debug when the API changes.`,
+      ``,
+    );
+  },
+  {
+    preserve: [`app/components/Wall.tsx`],
+  },
+);
+
+const TYPE_SCHEMAS = `import * as t from "funtypes";
+
+const TextPostSchema = t.Named(
+  "TextPost",
+  t.Object({
+    kind: t.Literal("text"),
+    id: t.String,
+    body: t.String,
+  }),
+);
+export type TextPost = t.Static<typeof TextPostSchema>;
+
+const ImagePostSchema = t.Named(
+  "ImagePost",
+  t.Object({
+    kind: t.Literal("image"),
+    id: t.String,
+    src: t.String,
+  }),
+);
+export type ImagePost = t.Static<typeof ImagePostSchema>;
+
+export const PostSchema = t.Union(TextPostSchema, ImagePostSchema);
+export type Post = t.Static<typeof PostSchema>;`;
+const SCHEMA_USAGE = `const parsed = t.Array(PostSchema).safeParse(posts);
+if (parsed.success) {
+  setPosts(parsed.value);
+} else {
+  console.error("Error Parsing Posts: " + t.showError(parsed));
+}`;
+createExerciseDirectory(
+  `exercises/14-runtime-validation-answer`,
+  `@workshop/runtime-validation-answer-valid`,
+  ({ writeFile, updateFile }) => {
+    const IMPORT_TS_RESET = `import '@total-typescript/ts-reset';`;
+    INSTRUCTIONS.push(
+      "To make this happen automatically, you can install `@total-typescript/ts-reset` and add `" +
+        IMPORT_TS_RESET +
+        "` to one of your files. See https://www.totaltypescript.com/ts-reset for more on the benefits of this.",
+      ``,
+      "Add the following line to the top of `exercises/14-runtime-validation/app/types.tsx`:",
+      ``,
+      "```tsx",
+      IMPORT_TS_RESET,
+      "```",
+      ``,
+      "You should now have a type error in `exercises/14-runtime-validation-answer/app/components/Wall.tsx` because `posts = JSON.parse(localStorage.getItem('posts') ?? '[]');` makes `posts` have a type of `unknown`. If you want to achieve the same thing here without affecting the entire project, you can replace `let posts` with `let posts: unknown` to tell TypeScript to treat the `posts` as being of an unknown type.",
+      ``,
+      "To validate the types here, replace the `interface` type declarations in `exercises/13-runtime-validation/app/types.tsx` with:",
+      ``,
+      "```tsx",
+      TYPE_SCHEMAS,
+      "```",
+      ``,
+      "Then you can update `exercises/14-runtime-validation/app/components/Wall.tsx` with:",
+      ``,
+      "```diff",
+      `- setPosts(posts);`,
+      ...SCHEMA_USAGE.split("\n").map((line) => `+ ${line}`),
+      "```",
+      ``,
+      "This will produce a detailed error message if the data does not match the schema.",
+      ``,
+    );
+    writeFile(`app/types.tsx`, IMPORT_TS_RESET + "\n" + TYPE_SCHEMAS + "\n");
+    updateFile(
+      `app/components/Wall.tsx`,
+      (source) =>
+        `import * as t from "funtypes";\n` +
+        source
+          .replace(`{ type Post }`, `{ type Post, PostSchema }`)
+          .replace(
+            /( *)setPosts\(posts\);/m,
+            `$1${SCHEMA_USAGE.replace(/\n/g, `\n$1`)}`,
+          ),
+    );
+  },
+);
+
+INSTRUCTIONS.push(fs.readFileSync(`scripts/bonus-content.md`, "utf8"));
 
 {
   const spawnResult = spawnSync(`pnpm`, [`install`], { stdio: "inherit" });

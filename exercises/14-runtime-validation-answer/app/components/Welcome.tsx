@@ -1,7 +1,12 @@
 export interface WelcomeProps {
-  language?: string;
+  language: string;
+  day: string;
 }
 
-export default function Welcome({ language = "TypeScript" }: WelcomeProps) {
-  return <>welcome to this workshop on using React with {language}</>;
+export default function Welcome({ language, day }: WelcomeProps) {
+  return (
+    <>
+      welcome to this workshop on using React with {language} on {day}
+    </>
+  );
 }
