@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { type Post } from "../types";
 import Button from "./Button";
@@ -23,6 +23,11 @@ export default function NewPost({ onSubmit }: NewPostProps) {
         if (files[0]) setFileUrl(URL.createObjectURL(files[0]));
       },
     });
+
+  const submitButtonRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (submitButtonRef.current) submitButtonRef.current.focus();
+  }, []);
 
   return (
     <form
@@ -64,12 +69,7 @@ export default function NewPost({ onSubmit }: NewPostProps) {
           onChange={(e) => setText(e.target.value)}
         />
       )}
-      <Button
-        type="submit"
-        ref={(element) => {
-          if (element) element.focus();
-        }}
-      >
+      <Button type="submit" ref={submitButtonRef}>
         Add Post
       </Button>
       <Button href="http://example.com">My Link</Button>
